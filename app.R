@@ -5,16 +5,22 @@ library(scales)
 library(shinythemes)
 library(processx)
 
+#Set the language in English
 Sys.setlocale("LC_ALL", "English")
+
+#Import data
 cases = read.csv("cases201010.csv")
 testing = read.csv("testing201009.csv")
 deaths = read.csv("deaths201014.csv")
 adhospital = read.csv("adhospital201014.csv")
+
+#To make sure that R recognize dates in datasets as real dates, otherwise there might bugs
 cases$date <- as.Date(cases$date)
 testing$date <- as.Date(testing$date)
 deaths$date <- as.Date(deaths$date)
 adhospital$date <- as.Date(adhospital$date)
 
+#ui
 ui <- fluidPage(theme = shinytheme("united"),
  titlePanel("Coronavirus in the UK"),
  p("The coronavirus is still spreading around the world today, which affects more than 200 countries.
@@ -59,6 +65,7 @@ ui <- fluidPage(theme = shinytheme("united"),
 )
 )
 
+#server
 server <- function(input, output) {
   output$plot1 <- renderPlot({
     if (input$class == "Cases") {
